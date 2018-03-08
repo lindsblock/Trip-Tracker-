@@ -1,10 +1,10 @@
-class Api::ItemsController < ApplicationController
+class Api::TripsController < ApplicationController
   def index
     render json: Trip.all
   end
 
   def create
-    item = Trip.new(trip_params)
+    trip = Trip.new(trip_params)
     if trip.save
       render json: trip
     else
@@ -12,11 +12,11 @@ class Api::ItemsController < ApplicationController
     end
   end
 
-  #def update
-    #trip = Trip.find(params[:id])
-    #come back to this
-    #render json: trip
-  #end
+  def update
+    trip = Trip.find(params[:id])
+    trip.update(name: params[:name])
+    render json: trip
+  end
 
   def destroy
     Trip.find(params[:id]).destroy
