@@ -1,9 +1,16 @@
 import React from 'react'
+import Location from './Location'
 
 class Trip extends React.Component {
   state = {
+    show: false,
     editing: false,
     name: this.props.name,
+  }
+
+  showLocations = () => {
+    this.props.showTrip(this.props.id)
+    this.setState({show: true})
   }
 
     handleChange = (e) => {
@@ -20,6 +27,8 @@ class Trip extends React.Component {
     }
 
   render(){
+    const {updateLocation, deleteLocation, addLocation} = this.props;
+    const locationProps = {updateLocation, deleteLocation, addLocation}
     if(this.state.editing){
       return (
         <div>
@@ -42,7 +51,20 @@ class Trip extends React.Component {
     } else {
       return (
         <div>
-          <h1>{this.props.name}</h1>
+          <h3>{this.props.name}</h3>
+          {this.state.show ?
+            <ul>{this.props.locations.map(l =>
+              <Location key={l.id} {...l} {...locationProps}/>
+                )}
+            </ul>
+          :
+          <div></div>
+
+          }
+          <button
+            className="btn"
+            onClick={this.showLocations}
+            >Show Locations</button>
           <button
           className="btn"
           onClick={() => this.setState({ editing: true})}
@@ -57,4 +79,4 @@ class Trip extends React.Component {
   }
 }
 
-export default Trip
+export default Trip;

@@ -42,4 +42,4 @@ class TripForm extends React.Component {
     )
   }
 }
-export default TripForm
+export default TripForm;

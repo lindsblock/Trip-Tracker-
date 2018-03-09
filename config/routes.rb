@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
   namespace :api do
-    resources :trips
-  end 
+    resources :trips do
+      resources :locations
+    end 
+  end
 end
