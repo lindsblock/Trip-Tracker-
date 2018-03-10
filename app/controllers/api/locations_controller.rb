@@ -9,15 +9,29 @@ class Api::LocationsController < ApplicationController
   def show
   end
 
+  def create
+    location = Location.new(location_params)
+    if location.save
+      render json: location
+    else
+      render json: {errors: trip.errors }, status: unprocessable_entity
+    end
+  end
+
   def update
   end
 
   def destroy
-    binding.pry
+    Location.find(params[:id]).destroy
+    render json: {message: 'Location destroyed'}
   end
 
   private
     def set_trip
       @trip = Trip.find(params[:trip_id])
     end
+
+    def location_params
+    params.require(:location).permit(:city, :state, :trip_id)
+  end
 end

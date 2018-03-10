@@ -6,6 +6,8 @@ class Trip extends React.Component {
     show: false,
     editing: false,
     name: this.props.name,
+    city: '',
+    state: ''
   }
 
   showLocations = () => {
@@ -24,6 +26,17 @@ class Trip extends React.Component {
       const {updateTrip, id} = this.props;
       updateTrip(id, this.state.name)
       this.setState({ editing: false})
+    }
+
+    handleSubmitLocation = (e) => {
+      e.preventDefault();
+      let location = {
+        city: this.state.city,
+        state: this.state.state,
+        trip_id: this.props.id}
+        this.props.addLocation(location)
+        this.setState({city:'', state: ''})
+
     }
 
   render(){
@@ -53,10 +66,41 @@ class Trip extends React.Component {
         <div>
           <h3>{this.props.name}</h3>
           {this.state.show ?
-            <ul>{this.props.locations.map(l =>
-              <Location key={l.id} {...l} {...locationProps}/>
-                )}
-            </ul>
+            <div>
+              <form
+                className="col s4"
+                onSubmit={this.handleSubmitLocation}
+                >
+                <div className="row">
+                  <div className="input-field col s12">
+                    <input
+                      value={this.state.city}
+                      name="city"
+                      type="text"
+                      className= "validate"
+                      placeholder= "Add Location City"
+                      onChange={this.handleChange}
+                    />
+                    <input
+                      value={this.state.state}
+                      name="state"
+                      type="text"
+                      className= "validate"
+                      placeholder= "Add Location State"
+                      onChange={this.handleChange}
+                    />
+                    <button
+                      className ="btn"
+                      type="submit"
+                      >Add Location</button>
+                  </div>
+                </div>
+              </form>
+              <ul>{this.props.locations.map(l =>
+                <Location key={l.id} {...l} {...locationProps}/>
+                  )}
+              </ul>
+            </div>
           :
           <div></div>
 
