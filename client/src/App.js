@@ -56,7 +56,7 @@ class App extends Component {
   addLocation = (location) => {
     axios.post(`/api/trips/${location.trip_id}/locations`, location)
     .then (res => {
-      console.log(res.data)
+      this.setState({ locations:[res.data, ...this.state.locations]})
     })
 
   }
